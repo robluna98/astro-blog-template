@@ -1,0 +1,36 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { Image } from 'astro:assets';
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout pageTitle={frontmatter.title}>
+  <p><em>{frontmatter.description}</em></p>
+  <p>
+    Written by {frontmatter.author} on {
+      frontmatter.pubDate.toString().slice(0, 10)
+    }
+  </p>
+
+  <Image
+    src={frontmatter.image.url}
+    loading="eager"
+    width="300"
+    height="300"
+    alt={frontmatter.image.alt}
+  />
+
+  <div class="flex flex-wrap">
+    {
+      frontmatter.tags.map((tag) => (
+        <p class="m-1 rounded-lg border-2 border-dotted border-gray-400 bg-white text-lg">
+          <a class="text-blue-800" href={`/tags/${tag}`}>
+            {tag}
+          </a>
+        </p>
+      ))
+    }
+
+    <slot />
+  </div>
+</BaseLayout>
